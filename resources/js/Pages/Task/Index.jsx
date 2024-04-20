@@ -4,15 +4,10 @@ import TableHeading from "@/Components/TableHeading";
 import TextInput from "@/Components/TextInput";
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {
-    PROJECT_STATUS_CLASS_MAP,
-    PROJECT_STATUS_TEXT_MAP,
-} from "@/constants.jsx";
+import { TASK_STATUS_CLASS_MAP, TASK_STATUS_TEXT_MAP } from "@/constants.jsx";
 import { Head, Link, router } from "@inertiajs/react";
 
-
-
-export default function Index({ auth, projects, queryParams = null, success }) {
+export default function Index({ auth, tasks, queryParams = null, success }) {
     queryParams = queryParams || {};
     const searchFieldChanged = (name, value) => {
         if (value) {
@@ -21,12 +16,11 @@ export default function Index({ auth, projects, queryParams = null, success }) {
             delete queryParams[name];
         }
 
-        router.get(route("project.index"), queryParams);
+        router.get(route("task.index"), queryParams);
     };
 
     const onKeyPress = (name, e) => {
         if (e.key !== "Enter") return;
-
         searchFieldChanged(name, e.target.value);
     };
 
@@ -41,10 +35,15 @@ export default function Index({ auth, projects, queryParams = null, success }) {
             queryParams.sort_field = name;
             queryParams.sort_direction = "asc";
         }
-        router.get(route("project.index"), queryParams);
+        router.get(route("task.index"), queryParams);
     };
 
-
+    const deleteTask = (task) => {
+        if (!window.confirm("Are you sure you want to delete the task?")) {
+            return;
+        }
+        router.delete(route("task.destroy", task.id));
+    };
 
     return (
         <AuthenticatedLayout
@@ -52,10 +51,10 @@ export default function Index({ auth, projects, queryParams = null, success }) {
             header={
                 <div className="flex justify-between items-center">
                     <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                        Projects
+                        Tasks
                     </h2>
                     <Link
-                        href={route("project.create")}
+                        href={route("task.create")}
                         className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600"
                     >
                         Add new
@@ -63,7 +62,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                 </div>
             }
         >
-            <Head title="Projects" />
+            <Head title="Tasks" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -160,7 +159,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                                                     defaultValue={
                                                         queryParams.name
                                                     }
-                                                    placeholder="Project Name"
+                                                    placeholder="Task Name"
                                                     onBlur={(e) =>
                                                         searchFieldChanged(
                                                             "name",
@@ -205,10 +204,11 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                                             <th className="px-3 py-3"></th>
                                         </tr>
                                     </thead>
-                                     <DisplayList  projects={projects.data}  />
+                                    <DisplayList tasks={tasks.data} />
+
                                 </table>
                             </div>
-                            <Pagination links={projects.meta.links} />
+                            <Pagination links={tasks.meta.links} />
                         </div>
                     </div>
                 </div>
@@ -217,69 +217,50 @@ export default function Index({ auth, projects, queryParams = null, success }) {
     );
 }
 
-const deleteProject = (project) => {
-    if (!window.confirm("Are you sure you want to delete the project?")) {
-        return;
-    }
-    router.delete(route("project.destroy", project.id));
-};
-
-function DisplayList({projects}){
-    // console.log(projects);
-    const listItems =  projects.map( project =>
+function DisplayList(tasks) {
+    const listItems = tasks.tasks.map( task =>
         <tr
             className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-            key={project.id}
+            key={task.id}
         >
             <td className="px-3 py-2">
-                {project.id}
+                {task.id}
             </td>
             <td className="px-3 py-2">
                 <img
-                    src={project.image_path}
+                    src={task.image_path}
                     style={{ width: 60 }}
                 />
             </td>
-            <th className="px-3 py-2 text-gray-100  hover:underline">
+            <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
                 <Link
                     href={route(
-                        "project.show",
-                        project.id
+                        "task.show",
+                        task.id
                     )}
                 >
-                    {project.name}
+                    {task.name}
                 </Link>
             </th>
             <td className="px-3 py-2">
-                <span
-                    className={
-                        "px-2 py-1 rounded text-white " +
-                        PROJECT_STATUS_CLASS_MAP[
-                            project.status
-                            ]
-                    }
-                >
-                    {
-                        PROJECT_STATUS_TEXT_MAP[
-                            project.status
-                            ]
-                    }
+                <span className={"px-2 py-1 rounded text-white " + TASK_STATUS_CLASS_MAP[task.status]}>
+                    { TASK_STATUS_TEXT_MAP[task.status] }
                 </span>
             </td>
             <td className="px-3 py-2 text-nowrap">
-                {project.created_at}
+                {task.created_at}
             </td>
             <td className="px-3 py-2 text-nowrap">
-                {project.due_date}
+                {task.due_date}
             </td>
             <td className="px-3 py-2">
-                {project.createdBy.name}
+                {task.createdBy.name}
             </td>
             <td className="px-3 py-2 text-nowrap">
                 <Link
                     href={route(
-                        "project.edit",
-                        project.id
+                        "task.edit",
+                        task.id
                     )}
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                 >
@@ -287,9 +268,7 @@ function DisplayList({projects}){
                 </Link>
                 <button
                     onClick={(e) =>
-                        deleteProject(
-                            project
-                        )
+                        deleteTask(task)
                     }
                     className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
                 >
@@ -298,11 +277,9 @@ function DisplayList({projects}){
             </td>
         </tr>
     );
-
-    return(
+    return (
         <tbody>
         {listItems}
         </tbody>
     );
-
 }

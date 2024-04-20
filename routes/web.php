@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['auth', 'verified'])->group(function () {    
+Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('project', ProjectController::class);
     Route::get('/task/my-tasks', [TaskController::class, 'myTasks'])
@@ -27,9 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('user', UserController::class);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

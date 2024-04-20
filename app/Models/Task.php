@@ -9,6 +9,9 @@ class Task extends Model
 {
     use HasFactory;
 
+    /**
+     * @var int|mixed|string|null
+     */
     protected $fillable = [
         'name',
         'description',

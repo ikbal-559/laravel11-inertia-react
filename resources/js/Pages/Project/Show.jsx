@@ -102,7 +102,7 @@ export default function Show({ auth, success, project, tasks, queryParams }) {
                                             Updated By
                                         </label>
                                         <p className="mt-1">
-                                            {project.updatedBy.name}
+                                            {project.updatedBy?.name}
                                         </p>
                                     </div>
                                 </div>

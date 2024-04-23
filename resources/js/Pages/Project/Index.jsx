@@ -152,9 +152,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                                     </thead>
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400 border-b-1 border-gray-500">
                                         <tr className="text-nowrap">
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3">
+                                            <th colSpan="3" className="px-3 py-3">
                                                 <TextInput
                                                     className="w-full"
                                                     defaultValue={
@@ -172,7 +170,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                                                     }
                                                 />
                                             </th>
-                                            <th className="px-3 py-3">
+                                            <th colSpan="3" className="px-3 py-3">
                                                 <SelectInput
                                                     className="w-full"
                                                     defaultValue={
@@ -199,8 +197,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                                                     </option>
                                                 </SelectInput>
                                             </th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                             <th className="px-3 py-3"></th>
                                         </tr>

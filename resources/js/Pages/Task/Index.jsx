@@ -86,9 +86,7 @@ export default function Index({ auth, tasks, queryParams = null, success }) {
                                                     queryParams.sort_direction
                                                 }
                                                 sortChanged={sortChanged}
-                                            >
-                                                ID
-                                            </TableHeading>
+                                            >ID</TableHeading>
                                             <th className="px-3 py-3">Image</th>
                                             <TableHeading
                                                 name="name"
@@ -99,9 +97,7 @@ export default function Index({ auth, tasks, queryParams = null, success }) {
                                                     queryParams.sort_direction
                                                 }
                                                 sortChanged={sortChanged}
-                                            >
-                                                Name
-                                            </TableHeading>
+                                            >Name</TableHeading>
 
                                             <TableHeading
                                                 name="status"
@@ -150,59 +146,55 @@ export default function Index({ auth, tasks, queryParams = null, success }) {
                                         </tr>
                                     </thead>
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400 border-b-1 border-gray-500">
-                                        <tr className="text-nowrap">
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3">
-                                                <TextInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.name
-                                                    }
-                                                    placeholder="Task Name"
-                                                    onBlur={(e) =>
-                                                        searchFieldChanged(
-                                                            "name",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    onKeyPress={(e) =>
-                                                        onKeyPress("name", e)
-                                                    }
-                                                />
-                                            </th>
-                                            <th className="px-3 py-3">
-                                                <SelectInput
-                                                    className="w-full"
-                                                    defaultValue={
-                                                        queryParams.status
-                                                    }
-                                                    onChange={(e) =>
-                                                        searchFieldChanged(
-                                                            "status",
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="">
-                                                        Select Status
-                                                    </option>
-                                                    <option value="pending">
-                                                        Pending
-                                                    </option>
-                                                    <option value="in_progress">
-                                                        In Progress
-                                                    </option>
-                                                    <option value="completed">
-                                                        Completed
-                                                    </option>
-                                                </SelectInput>
-                                            </th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                            <th className="px-3 py-3"></th>
-                                        </tr>
+                                    <tr className="text-nowrap">
+                                        <th colSpan="3" className="px-3 py-3">
+                                            <TextInput
+                                                className="w-full"
+                                                defaultValue={
+                                                    queryParams.name
+                                                }
+                                                placeholder="Task Name"
+                                                onBlur={(e) =>
+                                                    searchFieldChanged(
+                                                        "name",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                onKeyPress={(e) =>
+                                                    onKeyPress("name", e)
+                                                }
+                                            />
+                                        </th>
+                                        <th colSpan="3" className="px-3 py-3">
+                                            <SelectInput
+                                                className="w-full"
+                                                defaultValue={
+                                                    queryParams.status
+                                                }
+                                                onChange={(e) =>
+                                                    searchFieldChanged(
+                                                        "status",
+                                                        e.target.value
+                                                    )
+                                                }
+                                            >
+                                                <option value="">
+                                                    Select Status
+                                                </option>
+                                                <option value="pending">
+                                                    Pending
+                                                </option>
+                                                <option value="in_progress">
+                                                    In Progress
+                                                </option>
+                                                <option value="completed">
+                                                    Completed
+                                                </option>
+                                            </SelectInput>
+                                        </th>
+                                        <th className="px-3 py-3"></th>
+                                        <th className="px-3 py-3"></th>
+                                    </tr>
                                     </thead>
                                     <DisplayList tasks={tasks.data} />
 

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use Inertia\Response;
+
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $user = auth()->user();
         $totalPendingTasks = Task::query()
@@ -38,7 +40,7 @@ class DashboardController extends Controller
         $activeTasks = Task::query()
             ->whereIn('status', ['pending', 'in_progress'])
             ->where('assigned_user_id', $user->id)
-            ->limit(10)
+            ->limit(20)
             ->get();
         $activeTasks = TaskResource::collection($activeTasks);
 

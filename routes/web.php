@@ -18,6 +18,13 @@ Route::get('/', function () {
 });
 
 
+// new router for function
+Route::get('/function01', function () {
+    return Inertia::render('Welcome', [
+         
+    ]);
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('project', ProjectController::class);

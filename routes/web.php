@@ -25,6 +25,9 @@ Route::get('/function01', function () {
     ]);
 });
 
+// testing
+
+
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('project', ProjectController::class);

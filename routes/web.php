@@ -26,7 +26,7 @@ Route::get('/ikabl2', function () {
     ]);
 });
 
-Route::get('/rozy', function () {
+Route::get('/rozy99', function () {
     return Inertia::render('rozy-welcoem-page', [
         
     ]);

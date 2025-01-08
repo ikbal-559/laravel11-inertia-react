@@ -17,6 +17,15 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/ikabl2', function () {
+    return Inertia::render('Welcome2', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
 Route::get('/rozy', function () {
     return Inertia::render('rozy-welcoem-page', [
         
